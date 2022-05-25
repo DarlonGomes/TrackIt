@@ -12,7 +12,7 @@ export default function Login (){
     const [loginData, setLoginData] = useState(null);
 
     useEffect(()=>{
-        if(localStorage !== null){
+        if(localStorage.length !== 0){
             navigate("/hoje")
         }
     },[])
