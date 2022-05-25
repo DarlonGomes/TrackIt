@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import "../assets/reset.css"
 import axios from 'axios';
 import logotipo from '../assets/logotipo.png';
 import {useState, useEffect} from 'react';
-import { Link,useNavigate} from 'react-router-dom';
+import {Link,useNavigate} from 'react-router-dom';
 
 
 export default function Login (){
@@ -11,7 +10,6 @@ export default function Login (){
     const [email, setEmail] = useState("");
 	const [senha, setSenha] = useState("");
     const [loginData, setLoginData] = useState(null);
-    const [logged, setLogged] = useState(false);
 
     useEffect(()=>{
         if(localStorage !== null){
