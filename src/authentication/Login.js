@@ -1,15 +1,47 @@
 import styled from 'styled-components';
 import "../assets/reset.css"
+import axios from 'axios';
 import logotipo from '../assets/logotipo.png';
-import {useState} from 'react';
-import { Link } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import { Link,useNavigate} from 'react-router-dom';
+
+
 export default function Login (){
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
 	const [senha, setSenha] = useState("");
+    const [loginData, setLoginData] = useState(null);
+    const [logged, setLogged] = useState(false);
+
+    useEffect(()=>{
+        if(localStorage !== null){
+            navigate("/hoje")
+        }
+    },[])
+    
+        
+    
+    function validate(event, email, senha){
+        event.preventDefault();
+        setLoginData({
+            email: email,
+            password: senha
+        })
+        const promise= axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', loginData);
+            promise.then(response => {
+                navigate("/hoje");
+                localStorage.setItem("data", JSON.stringify(response.data));      
+            });
+            promise.catch(()=>{
+                alert("As credenciais não são válidas.")
+                setEmail("");
+                setSenha("");
+            })
+    }
     return (
         <Page>
             <img src={logotipo} alt="Logo Trackit" />
-            <form>
+            <form onSubmit={(event)=>validate(event,email,senha)}>
             <input
             type="email"
             value={email}
@@ -24,7 +56,7 @@ export default function Login (){
             placeholder= "senha"
             required
             ></input>
-            <button>Entrar</button>
+            <button type="submit">Entrar</button>
             </form>
             <Link to="/cadastro" >
             <p>Não tem uma conta? Cadastre-se!</p>
@@ -85,4 +117,3 @@ const Page = styled.div`
         margin-top: 25px;
     }
 `;
-

@@ -1,4 +1,3 @@
 import ReactDom from "react-dom";
 import App from "./App";
-const app = <App/>;
-ReactDom.render (app, document.querySelector(".root"));
+ReactDom.render (<App/>, document.querySelector(".root"));
