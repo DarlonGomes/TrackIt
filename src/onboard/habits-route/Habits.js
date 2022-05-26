@@ -5,40 +5,73 @@ import { useContext, useEffect,useState } from 'react';
 import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 import MyHabits from "./MyHabits";
+import Form from "./Form";
 export default function Habits (){
     const {data} = useContext(UserContext);
-    const [print, setPrint] = useState(false)
-        useEffect(()=>{
-            axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {headers:{
-            Authorization: `Bearer ${data.token}`
-        }}) .then((response) => {if(response.data.length !== 0){setPrint(true)}
-                                 else{setPrint("vazio")}}) 
+    const [print, setPrint] = useState(false);
+    const [weekData, setWeekData] = useState();
+    const [create, setCreate] = useState(false);
+    useEffect(()=>{
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {headers:{
+        Authorization: `Bearer ${data.token}`
+        }}) .then((response) => {if(response.data.length !== 0){
+                                    setWeekData(response.data)
+                                    setPrint(true); 
+                                    }
+                                 else{
+                                     setPrint("vazio")
+                                    }}) 
         },[])
+
+  
     const HabitCheck = () => {
         if(print === true){
             return (
-                <MyHabits/>
+                <MyHabits weekData={weekData}/>
             )
         }
         if (print === "vazio"){
-            return (<h5>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h5>)
+           return(
+            (<h5>Você não tem nenhum hábito cadastrado ainda.
+                 Adicione um hábito para começar a trackear!</h5>)
+           )
         }
         else{
             return (
                 <h5>Carregando</h5>
                 )
-        
         }
     }
+
+    const HabitForm = ({setCreate}) => {
+        if(create === false){
+            return (
+                <>
+                </>
+            )
+        }
+
+        if(create === true){
+            return (
+                <Form setCreate={setCreate}/>
+            )
+        }
+    }
+
+    function addHabit (){
+        setCreate(true)
+    }
+
     return(
         <Page>
             <Header/>
                 <Content>
                     <Info>
                         <h4>Meus hábitos</h4>
-                        <button>+</button>
+                        <button onClick={addHabit}>+</button>
                     </Info>
                     <HabitList>
+                        <HabitForm/>
                        <HabitCheck/>
                     </HabitList>
                 </Content>
@@ -55,7 +88,7 @@ const Page = styled.div`
 `;
 
 const Content = styled.div`
-    min-height: 667px;
+    min-height: 740px;
     margin: 70px 0px 70px;
     background-color: #E5E5E5;
     overflow-y:hidden ;
@@ -104,5 +137,6 @@ const HabitList = styled.div`
         margin: 0 20px;
     }
 `;
+
 
 
