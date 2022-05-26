@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import {UserContext} from './context/UserContext.js';
 export default function Header () {
-   
+   const {data} = useContext(UserContext);
+
     return(
         <Page>
             <h3>TrackIt</h3>
-            <img src=""/>
+            <img src={data.image} alt={data.name}/>
         </Page>
     )
 }

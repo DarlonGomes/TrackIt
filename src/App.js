@@ -4,9 +4,9 @@ import DataProvider from "./context/UserContext";
 import { ProgressProvider } from "./context/ProgressContext";
 import Login from "./authentication/Login";
 import SignIn from "./authentication/SignIn"
-import Today from './onboard/Today.js'
-import History from "./onboard/History";
-import Habits from "./onboard/Habits";
+import Today from './onboard/today-route/Today.js'
+import History from "./onboard/history-route/History";
+import Habits from "./onboard/habits-route/Habits";
 export default function App (){
   return (
     <DataProvider>

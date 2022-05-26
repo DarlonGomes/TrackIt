@@ -1,30 +1,31 @@
-import Footer from "../Footer";
-import Header from "../Header";
+import Footer from "../../Footer";
+import Header from "../../Header";
 import styled from 'styled-components';
 import { useContext, useEffect,useState } from 'react';
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 import axios from "axios";
+import MyHabits from "./MyHabits";
 export default function Habits (){
     const {data} = useContext(UserContext);
     const [print, setPrint] = useState(false)
         useEffect(()=>{
             axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {headers:{
             Authorization: `Bearer ${data.token}`
-        }}) .then((response) => {if(response.length !== 0){setPrint(true)}
+        }}) .then((response) => {if(response.data.length !== 0){setPrint(true)}
                                  else{setPrint("vazio")}}) 
         },[])
     const HabitCheck = () => {
         if(print === true){
             return (
-                <p>Ainda não foi implementado</p>
+                <MyHabits/>
             )
         }
         if (print === "vazio"){
-            return (<p></p>)
+            return (<h5>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</h5>)
         }
         else{
             return (
-                <p>Carregando</p>
+                <h5>Carregando</h5>
                 )
         
         }
@@ -54,7 +55,11 @@ const Page = styled.div`
 `;
 
 const Content = styled.div`
+    min-height: 667px;
     margin: 70px 0px 70px;
+    background-color: #E5E5E5;
+    overflow-y:hidden ;
+    
 `;
 
 const Info = styled.div`
@@ -86,16 +91,18 @@ const Info = styled.div`
 `;
 
 const HabitList = styled.div`
+    box-sizing: border-box;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
-`;
-
-const HabitCheck = styled.div`
-p{
+    
+    h5{
         font-family: 'Lexend Deca';
         font-weight: 400;
         font-size: 18px;
         color: #666666;
-}
-
+        margin: 0 20px;
+    }
 `;
+
+
