@@ -27,8 +27,8 @@ export default function Login (){
         })
         const promise= axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', loginData);
             promise.then(response => {
-                navigate("/hoje");
                 localStorage.setItem("data", JSON.stringify(response.data));      
+                navigate("/hoje");
             });
             promise.catch(()=>{
                 alert("As credenciais não são válidas.")

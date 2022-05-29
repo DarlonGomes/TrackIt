@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 export default function Day ({item}) {
-    const defaultWeek = [1, 2, 3, 4, 5, 6, 7];
+    const defaultWeek = [0, 1, 2, 3, 4, 5, 6];
     const DaysBox = () => {
         return(
             <>
             {defaultWeek.map((dia,index) => {
                 
-                if (dia === 1){
-                    if(item.includes(1)){
+                if (dia === 0){
+                    if(item.includes(0)){
                         return ( 
                             (<div key={index} className='selected'>D</div>)
                         )
@@ -17,8 +17,8 @@ export default function Day ({item}) {
                         )
                     }
                 }
-                if (dia === 2){
-                    if(item.includes(2)){
+                if (dia === 1){
+                    if(item.includes(1)){
                         return ( 
                             (<div key={index} className='selected'>S</div>)
                         )
@@ -28,14 +28,25 @@ export default function Day ({item}) {
                         )
                     }
                 }
-                if (dia === 3){
-                    if(item.includes(3)){
+                if (dia === 2){
+                    if(item.includes(2)){
                         return ( 
                             (<div key={index} className='selected'>T</div>)
                         )
                     }else{
                         return ( 
                         (<div key={index} className='normal'>T</div>)
+                        )
+                    }
+                }
+                if (dia === 3){
+                    if(item.includes(3)){
+                        return ( 
+                            (<div key={index} className='selected'>Q</div>)
+                        )
+                    }else{
+                        return ( 
+                        (<div key={index} className='normal'>Q</div>)
                         )
                     }
                 }
@@ -53,17 +64,6 @@ export default function Day ({item}) {
                 if (dia === 5){
                     if(item.includes(5)){
                         return ( 
-                            (<div key={index} className='selected'>Q</div>)
-                        )
-                    }else{
-                        return ( 
-                        (<div key={index} className='normal'>Q</div>)
-                        )
-                    }
-                }
-                if (dia === 6){
-                    if(item.includes(6)){
-                        return ( 
                             (<div key={index} className='selected'>S</div>)
                         )
                     }else{
@@ -72,8 +72,8 @@ export default function Day ({item}) {
                         )
                     }
                 }
-                if (dia === 7){
-                    if(item.includes(7)){
+                if (dia === 6){
+                    if(item.includes(6)){
                         return ( 
                             (<div key={index} className='selected'>S</div>)
                         )

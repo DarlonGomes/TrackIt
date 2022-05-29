@@ -4,15 +4,15 @@ import { UserContext } from "../../context/UserContext";
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-export default function MyHabits ({weekData}) {
-    const {data} = useContext(UserContext);
-    const navigate = useNavigate();
+export default function MyHabits ({weekData, loadHabits}) {
+    const {token} = useContext(UserContext);
     const Habit = ({item, id}) => {
         function deleteHabit () {
             if(window.confirm("Você deseja deletar essa hábito?")){
-                axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, {headers:{
-                    Authorization: `Bearer ${data.token}`
-                }}) .then(response => navigate("/"))
+                axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,token)
+                .then((response) => {
+                    loadHabits()
+                }) 
             }
         }
 
@@ -48,7 +48,8 @@ const Content = styled.div`
     display: flex;
     box-sizing: border-box;
     padding: 15px;
-    margin: 0 auto;
+    margin: 10px auto;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
 `;
 
 const Info = styled.div`

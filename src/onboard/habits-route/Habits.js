@@ -5,29 +5,29 @@ import { useContext, useEffect,useState } from 'react';
 import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 import MyHabits from "./MyHabits";
-import Form from "./Form";
+import CreateForm from "./Form";
 export default function Habits (){
-    const {data} = useContext(UserContext);
+    const {token} = useContext(UserContext);
     const [print, setPrint] = useState(false);
     const [weekData, setWeekData] = useState();
     const [create, setCreate] = useState(false);
-    useEffect(()=>{
-        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {headers:{
-        Authorization: `Bearer ${data.token}`
-        }}) .then((response) => {if(response.data.length !== 0){
-                                    setWeekData(response.data)
-                                    setPrint(true); 
-                                    }
-                                 else{
-                                     setPrint("vazio")
-                                    }}) 
-        },[])
+
+    function loadHabits () {
+        axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', token) 
+        .then((response) => {if(response.data.length !== 0){
+                setWeekData(response.data);
+                setPrint(true); 
+        }              
+        else{
+                setPrint("vazio")
+        }})
+    }
 
   
     const HabitCheck = () => {
         if(print === true){
             return (
-                <MyHabits weekData={weekData}/>
+                <MyHabits loadHabits ={loadHabits} weekData={weekData}/>
             )
         }
         if (print === "vazio"){
@@ -43,7 +43,7 @@ export default function Habits (){
         }
     }
 
-    const HabitForm = ({setCreate}) => {
+    const HabitForm = () => {
         if(create === false){
             return (
                 <>
@@ -53,7 +53,8 @@ export default function Habits (){
 
         if(create === true){
             return (
-                <Form setCreate={setCreate}/>
+
+                <CreateForm setCreate={setCreate} loadHabits={loadHabits}/>
             )
         }
     }
@@ -61,6 +62,8 @@ export default function Habits (){
     function addHabit (){
         setCreate(true)
     }
+
+    useEffect( loadHabits,[])
 
     return(
         <Page>
