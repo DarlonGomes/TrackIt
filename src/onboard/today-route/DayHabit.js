@@ -10,6 +10,21 @@ const [isDone, setIsDone] = useState(item.done);
 const {token} = useContext(UserContext);
 let isEqual;
 
+function singularHighest(){
+    if(item.highestSequence > 1){
+        return (<> dias</>)
+    }
+    return (<>dia</>)
+}
+const checkSingularHighest = singularHighest();
+function singularCurrent(){
+    if(item.currentSequence > 1){
+        return (<> dias</>)
+    }
+    return (<>dia</>)
+}
+const checkSingularCurrent = singularCurrent();
+
 function toggleCheck(){
     if(isDone === false){
         setAsDone();
@@ -53,10 +68,10 @@ function refreshIt () {
             <HabitInfo isEqual={isEqual} isDone={isDone}>
                 <h5>{item.name}</h5>
                 <div className='sequence'>
-                <p>Sequência atual :{'\u00A0'}</p> <p className='checked'>{item.currentSequence}</p>
+                <p>Sequência atual :{'\u00A0'}</p> <p className='checked'>{item.currentSequence} {checkSingularCurrent}</p>
                 </div>
                 <div className='sequence'>
-                <p>Seu recorde :{'\u00A0'}</p> <p className='validate'>{item.highestSequence}</p>
+                <p>Seu recorde :{'\u00A0'}</p> <p className='validate'>{item.highestSequence} {checkSingularHighest}</p>
                 </div>
             </HabitInfo>
             <Done onClick={()=> toggleCheck()} isDone={isDone}>
