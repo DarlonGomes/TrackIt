@@ -40,7 +40,7 @@ export default function History (){
 
 const Content = styled.div`
     min-height: 800px;
-    width: 100vw;
+    width: 100%;
     margin: 70px 0px 70px;
     background-color: #E5E5E5;
     overflow-y:hidden ;
