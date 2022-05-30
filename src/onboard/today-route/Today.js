@@ -24,7 +24,6 @@ export default function Hoje (){
         if(localStorage.length === 0){
             navigate("/");
         }
-
         else{
                 const userAuth = JSON.parse(localStorage.getItem("data"));
                  token = {headers:{
@@ -33,7 +32,6 @@ export default function Hoje (){
                setToken(token)
                 setData(userAuth);
                 loadTodayHabits();
-                
          }
         },[])
 
@@ -58,7 +56,9 @@ export default function Hoje (){
     function loadTodayHabits (){
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', token)
         promise.then((response) =>{setTodayHabits(response.data)
+    
                                     setTotal(response.data.length)})
+            console.log(todayHabits)
     }
 
    
@@ -82,21 +82,34 @@ export default function Hoje (){
 
     function yourProgress (){
         let contador = 0;
-       if(todayHabits !== null){
+        if(todayHabits === null){
+            return(
+                <p>Nenhum hábito concluído ainda</p>
+            )
+        }
+        if(todayHabits.length === 0){
+            return(
+                <p>Você não possui hábitos para concluir hoje.</p>
+            )
+        }
+       if(todayHabits.length !== 0 ){
            for(let i = 0; i < todayHabits.length; i++){
                if(todayHabits[i].done === true){
                    contador++
                }
            }
         setProgress(Math.round(contador/todayHabits.length * 100))
-         return(
-             <p className='green'>{progress}% dos hábitos concluídos</p>
-         )
-        }
-        else{
-            return (
-                <p>Você não concluiu nenhum hábito</p>
+           if(contador === 0){
+            
+               return (
+                   <p>Nenhum hábito concluído ainda</p>
+               )
+           }
+           if(contador > 0){
+            return(
+                <p className='green'>{progress}% dos hábitos concluídos</p>
             )
+           }
         }
        }
     

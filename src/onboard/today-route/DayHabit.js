@@ -17,6 +17,7 @@ function singularHighest(){
     return (<>dia</>)
 }
 const checkSingularHighest = singularHighest();
+
 function singularCurrent(){
     if(item.currentSequence > 1){
         return (<> dias</>)
