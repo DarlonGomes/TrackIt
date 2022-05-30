@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { UserContext } from '../../context/UserContext';
 import { useContext, useState } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
 import axios from 'axios';
 export default function CreateForm ({setCreate, loadHabits}){
     const {token} = useContext(UserContext);
@@ -8,7 +9,7 @@ export default function CreateForm ({setCreate, loadHabits}){
     const [habit, setHabit] = useState("");
     const [selectedDays, setSelectedDays] = useState([]);
     const [isDisabled, setIsDisabled] = useState(false);
-    const save = true;
+    console.log(selectedDays)
     function handleDay(index) {
         const tapDay = [...weekdays];
         tapDay[index].tap=!tapDay[index].tap
@@ -48,18 +49,37 @@ export default function CreateForm ({setCreate, loadHabits}){
             alert("Você deve selecionar ao menos um dia.")
             return;
         }
-        console.log(habit)
-        console.log(selectedDays)
+
+        setIsDisabled(true);
 
         axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', body, token)
             .then((response)=> {
+                setIsDisabled(false)
                 setCreate(false)
                 loadHabits();
             })
         }
+        
+     function saveButton () {
 
+        if(isDisabled === true){
+            return (
+                <>
+            <button><ThreeDots  color="#FFFFFF" height={17} width={35} /></button>
+            </>
+            )
+        }
+
+        return(
+            <>
+            <button onClick={handleCreate}>Salvar</button>
+            </>
+        )
+    }
+
+    const SaveButton = saveButton();
     return(
-        <Model>
+        <Model isDisabled = {isDisabled}>
         
                 <input
                 type="text"
@@ -68,13 +88,13 @@ export default function CreateForm ({setCreate, loadHabits}){
                 value={habit}
                 >
                 </input>
-                <Week >
+                <Week isDisabled = {isDisabled}>
                     {weekdays.map((item,index) =><ToggleDay key={index}  id={item.id} onClick={()=>handleDay(index)} tap={item.tap}> {item.day} </ToggleDay>)}
                 </Week>
            
             <Buttons>
                 <button onClick={handleCancel}className='cancel'>Cancelar</button>
-                <button onClick={handleCreate}>Salvar</button>
+                {SaveButton}
             </Buttons>
         </Model>
     )
@@ -91,11 +111,11 @@ const Model = styled.div`
     padding: 15px;
     margin: 0 auto 10px;
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
-    
+    pointer-events: ${(props) => props.isDisabled ? "none" : "all"};
     input{
         width: 303px;
         height: 45px;
-        background: #FFFFFF;
+        background: ${(props) => props.isDisabled ? "#F2F2F2" : "#FFFFFF"};
         border: 1px solid #D5D5D5;
         border-radius: 5px;
         font-family: 'Lexend Deca';
@@ -105,6 +125,7 @@ const Model = styled.div`
         box-sizing: border-box;
         padding: 0 10px;
         margin-bottom: 8px;
+        pointer-events: ${(props) => props.isDisabled ? "none" : "all"};
     }
 `;
 const Week = styled.div`
@@ -148,6 +169,9 @@ const Buttons = styled.div `
         border-radius: 5px;
         color: #FFFFFF;
         background-color: #52B6FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .cancel{
@@ -155,3 +179,4 @@ const Buttons = styled.div `
         background-color: #FFFFFF;
     }
 `;
+

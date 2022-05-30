@@ -3,13 +3,14 @@ import axios from 'axios';
 import logotipo from '../assets/logotipo.png';
 import {useState, useEffect} from 'react';
 import {Link,useNavigate} from 'react-router-dom';
-
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function Login (){
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
 	const [senha, setSenha] = useState("");
     const [loginData, setLoginData] = useState(null);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(()=>{
         if(localStorage.length !== 0){
@@ -17,25 +18,44 @@ export default function Login (){
         }
     },[])
     
-        
-    
     function validate(event, email, senha){
         event.preventDefault();
+        setIsDisabled(true);
         setLoginData({
             email: email,
             password: senha
         })
         const promise= axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', loginData);
             promise.then(response => {
-                localStorage.setItem("data", JSON.stringify(response.data));      
-                navigate("/hoje");
+                localStorage.setItem("data", JSON.stringify(response.data));
+                goTo();
             });
             promise.catch(()=>{
-                alert("As credenciais não são válidas.")
                 setEmail("");
                 setSenha("");
+                alert("As credenciais não são válidas.")
+                setIsDisabled(false);
             })
     }
+        function goTo (){
+            setIsDisabled(false);
+                navigate("/hoje");
+        }
+
+        function toggleButton () {
+            if(isDisabled === true){
+                return (
+                    <>
+                    <button><ThreeDots  color="#FFFFFF" height={17} width={303} /></button>
+                    </>
+                )
+            }
+
+            return(
+                <button type="submit">Entrar</button>
+            )
+        }
+    const Toggle = toggleButton();
     return (
         <Page>
             <img src={logotipo} alt="Logo Trackit" />
@@ -54,7 +74,7 @@ export default function Login (){
             placeholder= "senha"
             required
             ></input>
-            <button type="submit">Entrar</button>
+            {Toggle}
             </form>
             <Link to="/cadastro" >
             <p>Não tem uma conta? Cadastre-se!</p>
@@ -87,12 +107,13 @@ const Page = styled.div`
     input{
         width: 303px;
         height: 45px;
-        background: #FFFFFF;
+        background: ${(props) => props.isDisabled ? "#F2F2F2" : "#FFFFFF"};
         border: 1px solid #D5D5D5;
         border-radius: 5px;
         margin-bottom: 6px;
         box-sizing: border-box;
         padding: 0 10px;
+        pointer-events: ${(props) => props.isDisabled ? "none" : "all"};
     }
 
     button{
@@ -105,6 +126,7 @@ const Page = styled.div`
         font-weight: 400;
         font-size: 20.976px;
         color: #FFFFFF;
+        pointer-events: ${(props) => props.isDisabled ? "none" : "all"};
     }
 
     p{

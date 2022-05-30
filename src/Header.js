@@ -35,7 +35,7 @@ const Page = styled.div`
     img{
         width: 51px;
         height: 51px;
-        object-fit: contain;
+        object-fit: fill;
         border-radius: 98.5px;
     }
 `;

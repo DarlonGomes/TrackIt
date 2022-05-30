@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import Day from './Day.js';
+import Days from './Days.js';
 import { UserContext } from "../../context/UserContext";
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 export default function MyHabits ({weekData, loadHabits}) {
     const {token} = useContext(UserContext);
@@ -23,7 +22,7 @@ export default function MyHabits ({weekData, loadHabits}) {
                     <p>{item.name}</p>
                 </HabitTitle>
                 <Week>
-                    <Day item={item.days}/>
+                    <Days item={item.days}/>
                 </Week>
             </Info>
             <Delete>

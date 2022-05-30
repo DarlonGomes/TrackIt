@@ -11,7 +11,6 @@ export default function Habits (){
     const [print, setPrint] = useState(false);
     const [weekData, setWeekData] = useState();
     const [create, setCreate] = useState(false);
-
     function loadHabits () {
         axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', token) 
         .then((response) => {if(response.data.length !== 0){

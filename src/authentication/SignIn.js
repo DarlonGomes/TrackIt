@@ -4,16 +4,35 @@ import logotipo from '../assets/logotipo.png';
 import {useState} from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import { ThreeDots } from 'react-loader-spinner';
 export default function SignIn () {
     const navigate = useNavigate();
     const [registerEmail, setRegisterEmail] = useState("");
 	const [registerPassword, setRegisterPassword] = useState("");
     const [registerName, setRegisterName] = useState("");
 	const [registerImage, setRegisterImage] = useState("");
-    const [registerData, setRegisterData] = useState(null)
+    const [registerData, setRegisterData] = useState(null);
+    const [isDisabled, setIsDisabled] = useState(false);
+
+    function toggleButton () {
+        if(isDisabled === true){
+            return (
+                <>
+                <button><ThreeDots  color="#FFFFFF" height={17} width={303} /></button>
+                </>
+            )
+        }
+
+        return(
+            <button type="submit">Entrar</button>
+        )
+    }
+
+    const Toggle = toggleButton();
     
     function register(event, registerEmail, registerPassword, registerName, registerImage){
         event.preventDefault();
+        setIsDisabled(true)
         setRegisterData({
            email: registerEmail,
            name: registerName, 
@@ -22,7 +41,8 @@ export default function SignIn () {
         })
 
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', registerData)
-                 promise.then(response => navigate("/"));
+                 promise.then((response) => {setIsDisabled(false);
+                                            navigate("/")});
                 promise.catch(()=>{
                     alert("Já existe uma conta cadastrada com esse e-mail.");
                     setRegisterEmail("");
@@ -32,6 +52,7 @@ export default function SignIn () {
                 })
 
     }
+
 
     return (
           <Page>
@@ -65,7 +86,7 @@ export default function SignIn () {
             placeholder= "foto"
             required
             ></input>
-            <button type="submit">Cadastrar</button>
+            {Toggle}
             </form>
             <Link to="/" >
             <p>Já tem uma conta? Faça login!</p>
@@ -98,12 +119,13 @@ const Page = styled.div`
     input{
         width: 303px;
         height: 45px;
-        background: #FFFFFF;
+        background: ${(props) => props.isDisabled ? "#F2F2F2" : "#FFFFFF"};
         border: 1px solid #D5D5D5;
         border-radius: 5px;
         margin-bottom: 6px;
         box-sizing: border-box;
         padding: 0 10px;
+        pointer-events: ${(props) => props.isDisabled ? "none" : "all"};
     }
 
     button{
@@ -116,6 +138,7 @@ const Page = styled.div`
         font-weight: 400;
         font-size: 20.976px;
         color: #FFFFFF;
+        pointer-events: ${(props) => props.isDisabled ? "none" : "all"};
     }
 
     p{

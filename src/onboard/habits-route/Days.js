@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export default function Day ({item}) {
+export default function Days ({item}) {
     const defaultWeek = [0, 1, 2, 3, 4, 5, 6];
     const DaysBox = () => {
         return(
