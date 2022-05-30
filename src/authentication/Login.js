@@ -86,6 +86,7 @@ export default function Login (){
 }
 
 const Page = styled.div`
+    height: 85vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
