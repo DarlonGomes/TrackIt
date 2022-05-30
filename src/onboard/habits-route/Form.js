@@ -9,7 +9,6 @@ export default function CreateForm ({setCreate, loadHabits}){
     const [habit, setHabit] = useState("");
     const [selectedDays, setSelectedDays] = useState([]);
     const [isDisabled, setIsDisabled] = useState(false);
-    console.log(selectedDays)
     function handleDay(index) {
         const tapDay = [...weekdays];
         tapDay[index].tap=!tapDay[index].tap

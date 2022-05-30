@@ -1,34 +1,38 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import logotipo from '../assets/logotipo.png';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {Link,useNavigate} from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
-
+import { UserContext } from '../context/UserContext';
 export default function Login (){
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
 	const [senha, setSenha] = useState("");
-    const [loginData, setLoginData] = useState(null);
     const [isDisabled, setIsDisabled] = useState(false);
-
+    const {setToken, setData} = useContext(UserContext);
+    
     useEffect(()=>{
-        if(localStorage.length !== 0){
+    if(localStorage.length !== 0)
             navigate("/hoje")
-        }
-    },[])
+     }
+    ,[])
+    
     
     function validate(event, email, senha){
         event.preventDefault();
         setIsDisabled(true);
-        setLoginData({
+        const promise= axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', {
             email: email,
             password: senha
-        })
-        const promise= axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', loginData);
+        });
             promise.then(response => {
-                localStorage.setItem("data", JSON.stringify(response.data));
-                goTo();
+                    localStorage.setItem("data", JSON.stringify(response.data))
+                    setData(response.data);
+                    setToken({headers:{
+                        Authorization: `Bearer ${response.data.token}`
+               }})
+                navigate("/hoje")    
             });
             promise.catch(()=>{
                 setEmail("");
@@ -37,11 +41,7 @@ export default function Login (){
                 setIsDisabled(false);
             })
     }
-        function goTo (){
-            setIsDisabled(false);
-                navigate("/hoje");
-        }
-
+       
         function toggleButton () {
             if(isDisabled === true){
                 return (

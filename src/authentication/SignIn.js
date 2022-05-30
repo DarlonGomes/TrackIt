@@ -11,7 +11,6 @@ export default function SignIn () {
 	const [registerPassword, setRegisterPassword] = useState("");
     const [registerName, setRegisterName] = useState("");
 	const [registerImage, setRegisterImage] = useState("");
-    const [registerData, setRegisterData] = useState(null);
     const [isDisabled, setIsDisabled] = useState(false);
 
     function toggleButton () {
@@ -24,7 +23,7 @@ export default function SignIn () {
         }
 
         return(
-            <button type="submit">Entrar</button>
+            <button type="submit">Cadastrar</button>
         )
     }
 
@@ -33,18 +32,17 @@ export default function SignIn () {
     function register(event, registerEmail, registerPassword, registerName, registerImage){
         event.preventDefault();
         setIsDisabled(true)
-        setRegisterData({
-           email: registerEmail,
-           name: registerName, 
-           image: registerImage,
-           password: registerPassword
-        })
 
-        const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', registerData)
+        const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up',{
+            email: registerEmail,
+            name: registerName, 
+            image: registerImage,
+            password: registerPassword
+         })
                  promise.then((response) => {setIsDisabled(false);
                                             navigate("/")});
                 promise.catch(()=>{
-                    alert("Já existe uma conta cadastrada com esse e-mail.");
+                    setIsDisabled(false);
                     setRegisterEmail("");
                     setRegisterPassword("");
                     setRegisterName("");

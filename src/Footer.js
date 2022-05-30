@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
 import ProgressContext from "./context/ProgressContext.js";
@@ -10,18 +10,13 @@ import { Link } from "react-router-dom";
      const navigate = useNavigate();
     return (
         <Page>
-            
                 <button onClick={()=> navigate("/habitos")}>Hábitos</button>
-               
         <Link to ="/hoje" style={{textDecoration: 'none'}}>
             <ProgressBar>
                     <CircularProgressbar backgroundPadding={6} strokeWidth={9} value={progress} text="Hoje" background />
             </ProgressBar>
             </Link>
-        
                 <button onClick={()=> navigate("/historico")}>Histórico</button>
-               
-            
         </Page>
     )
 }

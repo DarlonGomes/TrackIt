@@ -1,7 +1,31 @@
 import styled from 'styled-components'
 import Footer from "../../Footer"
 import Header from "../../Header"
+import { useContext, useEffect } from 'react'
+import { UserContext } from '../../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 export default function History (){
+    const {setData, setToken} = useContext(UserContext);
+    const navigate = useNavigate();
+    let token;
+    useEffect(()=>{
+        if(localStorage.length === 0){
+            navigate("/");
+        }
+
+        else{
+                const userAuth = JSON.parse(localStorage.getItem("data"));
+                 token = {headers:{
+                    Authorization: `Bearer ${userAuth.token}`
+               }}
+               setToken({headers:{
+                Authorization: `Bearer ${userAuth.token}`
+           }})
+                setData(userAuth);
+                
+         }
+        },[])
+
     return(
         <>
         <Header/>
