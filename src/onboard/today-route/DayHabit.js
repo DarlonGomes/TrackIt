@@ -1,15 +1,13 @@
 import styled from 'styled-components';
 import check from '../../assets/check.png'
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext} from 'react';
 import axios from 'axios';
-import { UserContext } from '../../context/UserContext';
-import {ProgressContext} from '../../context/ProgressContext'
+import  {UserContext}  from '../../context/UserContext';
+
 
 export default function DayHabit({item, id, setTodayHabits}){
-
 const [isDone, setIsDone] = useState(item.done);
 const {token} = useContext(UserContext);
-const {progress, setProgress} = useContext(ProgressContext);
 let isEqual;
 
 function toggleCheck(){

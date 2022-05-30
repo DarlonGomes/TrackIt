@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
-import ProgressContext from "./context/ProgressContext.js";
+import {ProgressContext} from "./context/ProgressContext.js";
 import 'react-circular-progressbar/dist/styles.css';
 import { Link } from "react-router-dom";
- import styled from 'styled-components'
+import styled from 'styled-components'
+import axios from "axios";
+
  const Footer = () => {
-     const {progress} = useContext(ProgressContext)
-     const navigate = useNavigate();
+    const {progress} = useContext(ProgressContext)
+    const navigate = useNavigate();
     return (
         <Page>
                 <button onClick={()=> navigate("/habitos")}>Hábitos</button>

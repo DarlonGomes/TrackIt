@@ -2,18 +2,30 @@ import Footer from "../../Footer";
 import Header from "../../Header";
 import styled from 'styled-components';
 import { useContext, useEffect,useState } from 'react';
-import { UserContext } from "../../context/UserContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import  {UserContext}  from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MyHabits from "./MyHabits";
 import CreateForm from "./Form";
+
 export default function Habits (){
-    const {token} = useContext(UserContext);
+
+    const {token, setToken, setData} = useContext(UserContext);
     const [print, setPrint] = useState(false);
     const [weekData, setWeekData] = useState();
     const [create, setCreate] = useState(false);
     const navigate = useNavigate();
-
+    
+    useEffect(()=>{
+            const userAuth = JSON.parse(localStorage.getItem("data"));
+             setToken({headers:{
+                Authorization: `Bearer ${userAuth.token}`
+           }})
+            setData(userAuth);
+           loadHabits(); 
+     }
+    ,[])
+    
     function loadHabits () {
         if(localStorage.length === 0){
             navigate("/");
@@ -60,7 +72,7 @@ export default function Habits (){
         if(create === true){
             return (
 
-                <CreateForm setCreate={setCreate} loadHabits={loadHabits}/>
+                <CreateForm setCreate={setCreate} loadHabits={loadHabits} token={token}/>
             )
         }
     }
@@ -69,7 +81,7 @@ export default function Habits (){
         setCreate(true)
     }
 
-    useEffect( loadHabits,[])
+    
 
     return(
         <Page>
@@ -97,7 +109,7 @@ const Page = styled.div`
 `;
 
 const Content = styled.div`
-    min-height: 740px;
+    min-height: 800px;
     margin: 70px 0px 70px;
     background-color: #E5E5E5;
     overflow-y:hidden ;

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { UserContext } from '../../context/UserContext';
+import {UserContext} from '../../context/UserContext';
 import { useContext, useState } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 import axios from 'axios';

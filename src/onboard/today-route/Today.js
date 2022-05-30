@@ -30,10 +30,9 @@ export default function Hoje (){
                  token = {headers:{
                     Authorization: `Bearer ${userAuth.token}`
                }}
-               setToken({headers:{
-                Authorization: `Bearer ${userAuth.token}`
-           }})
+               setToken(token)
                 setData(userAuth);
+                loadTodayHabits();
                 
          }
         },[])
@@ -62,9 +61,7 @@ export default function Hoje (){
                                     setTotal(response.data.length)})
     }
 
-    useEffect(()=>{
-        loadTodayHabits();
-    },[]);
+   
     function check (){
 
         if(todayHabits !== null){
@@ -84,18 +81,26 @@ export default function Hoje (){
     }
 
     function yourProgress (){
-        if (progress === 0){
-            return (
-                <p>Nenhum hábito conluído ainda</p>
-            )
+        let contador = 0;
+       if(todayHabits !== null){
+           for(let i = 0; i < todayHabits.length; i++){
+               if(todayHabits[i].done === true){
+                   contador++
+               }
+           }
+        setProgress(Math.round(contador/todayHabits.length * 100))
+         return(
+             <p className='green'>{progress}% dos hábitos concluídos</p>
+         )
         }
         else{
-            return(
-                <p className='green'></p>
+            return (
+                <p>Você não concluiu nenhum hábito</p>
             )
         }
-    }
-    const progressPercentage = yourProgress()
+       }
+    
+    const progressPercentage = yourProgress();
     const checked = check();
     return(
         <>
@@ -112,7 +117,7 @@ export default function Hoje (){
     )
 }
 const Content = styled.div`
-    min-height: 740px;
+    min-height: 800px;
     margin: 70px 0px 70px;
     background-color: #E5E5E5;
     overflow-y:hidden ;
