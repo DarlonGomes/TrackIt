@@ -96,7 +96,7 @@ export default function SignIn () {
 }
 
 const Page = styled.div`
-    height: 85vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
